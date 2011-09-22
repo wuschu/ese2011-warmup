@@ -1,39 +1,30 @@
-public class Event {
-	public String eventTitle, startTime, endTime;
-	public int startDay, startMonth, startYear, endDay, endMonth, endYear;
+import java.util.Date;
 
-	public Event(String title, int startDay, int startMonth, int startYear,
-			int endDay, int endMonth, int endYear, String startTime,
-			String endTime) {
-		this.eventTitle = title;
-		this.startDay = startDay;
-		this.startMonth = startMonth;
-		this.startYear = startYear;
-		this.endDay = endDay;
-		this.endMonth = endMonth;
-		this.endYear = endYear;
-		this.startTime = startTime;
+public class Event {
+	public String title;
+	public Date startTime, endTime;
+
+	public Event(String title, Date startsAt, Date endsAt) {
+		this.title = title;
+		this.startTime = startsAt;
 		this.endTime = endTime;
 	}
 
 	public String getTitle() {
-		return eventTitle;
+		return title;
 	}
 
-	public int getStartDay() {
-		return startDay;
+	public Date getStartTime() {
+		return startTime;
 	}
 
-	public int getStartMonth() {
-		return startMonth;
+	public Date getEndTime() {
+		return endTime;
 	}
 
 	// usw... for all variables getters.
 
 	public String toString() {
-		return "Event Details: \nTitle: " + eventTitle + "\n Starting: "
-				+ startDay + "." + startMonth + "." + startYear + " "
-				+ startTime + "\n Ending: " + endDay + "." + endMonth + "."
-				+ endYear + " " + endTime;
+		return "";
 	}
 }
