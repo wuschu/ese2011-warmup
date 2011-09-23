@@ -25,11 +25,12 @@ public class Calendar {
 		float factor = 1 / 1000 / 60 / 60 / 24;
 		List<Event> eventsAtDateList = new LinkedList<Event>();
 		for (Event event : eventList) {
-			if (event.getStartTime().getTime() * factor <= date.getTime()
-					* factor
-					&& date.getTime() * factor <= event.getEndTime().getTime()
-							* factor)
+			if (((event.getStartTime().getTime() * factor) <= (date.getTime() * factor))
+					&& ((date.getTime() * factor) <= (event.getEndTime()
+							.getTime() * factor))) {
 				eventsAtDateList.add(event);
+
+			}
 
 		}
 		return eventsAtDateList;
@@ -47,4 +48,11 @@ public class Calendar {
 	public boolean isEmpty() {
 		return eventList.isEmpty();
 	}
+
+	public String getAllEventsOfCalendar() {
+		return "In calendar " + calName + " are the following events: "
+				+ eventList.toString();
+
+	}
+
 }

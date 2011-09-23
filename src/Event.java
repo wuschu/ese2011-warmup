@@ -34,6 +34,7 @@ public class Event {
 	// usw... for all variables getters.
 
 	public String toString() {
-		return "";
+		return "Event: " + title + "\nStart: " + startTime + "\nEnd: "
+				+ endTime + "\n";
 	}
 }
