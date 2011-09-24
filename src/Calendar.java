@@ -3,16 +3,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Calendar {
-	User owner = new User("Dominik");
+	User owner;
 	String calName;
 	List<Event> eventList;
-	// creat an array of strings containing the names of the months
-	String months[] = { "", "January", "February", "March", "April", "May",
-			"June", "July", "August", "Septembre", "Octobre", "Novembre",
-			"Decembre" };
 
-	public Calendar(String name, User user) {
-		this.owner = user;
+	public Calendar(String name, User owner) {
+		this.owner = owner;
 		this.calName = name;
 		eventList = new LinkedList<Event>();
 	}
@@ -22,12 +18,12 @@ public class Calendar {
 	}
 
 	public List<Event> getEventAtDate(Date date) {
-		float factor = 1 / 1000 / 60 / 60 / 24;
 		List<Event> eventsAtDateList = new LinkedList<Event>();
 		for (Event event : eventList) {
-			if (((event.getStartTime().getTime() * factor) <= (date.getTime() * factor))
-					&& ((date.getTime() * factor) <= (event.getEndTime()
-							.getTime() * factor))) {
+			if (((event.getStartTime().getTime() / 1000 / 60 / 60 / 24) <= (date
+					.getTime() / 1000 / 60 / 60 / 24))
+					&& ((date.getTime() / 1000 / 60 / 60 / 24) <= (event
+							.getEndTime().getTime() / 1000 / 60 / 60 / 24))) {
 				eventsAtDateList.add(event);
 
 			}

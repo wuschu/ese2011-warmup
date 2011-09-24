@@ -5,8 +5,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -39,13 +37,11 @@ public class CalendarTest {
 
 	@Test
 	public void testEventAtDate() {
-		List<Event> testList = new LinkedList<Event>();
-		testList.add(new Event("This Event should be found", new Date(),
-				new Date(), false));
 		try {
 			calendar.addEvent(new Event("ESE Lecture", formatter
-					.parse("28.09.2011, 13:00"), formatter
-					.parse("28.09.2011, 16:00"), false));
+					.parse("21.09.2011, 13:00"), formatter
+					.parse("21.09.2011, 16:00"), false));
+
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,9 +50,47 @@ public class CalendarTest {
 				new Date(), false));
 
 		assertFalse(calendar.getEventAtDate(new Date()).isEmpty());
-		System.out.println(calendar.getEventAtDate(new Date()));
-		System.out.println(new Event("This Event should be found", new Date(),
-				new Date(), false).getEndTime().getTime());
-		System.out.println(testList);
+
+		assertEquals(calendar.getEventAtDate(new Date()).get(0).getTitle(),
+				"This Event should be found");
+
+	}
+
+	@Test
+	public void testEventOverMultipleDays() {
+		try {
+			calendar.addEvent(new Event("ESE Lecture", formatter
+					.parse("21.09.2011, 13:00"), formatter
+					.parse("21.09.2011, 16:00"), false));
+
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// event started in the past until today
+		try {
+			calendar.addEvent(new Event("the one from the past", formatter
+					.parse("21.09.2011, 13:00"), new Date(), false));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// event starting today and go on for like forever....
+		try {
+			calendar.addEvent(new Event("the one in the future", new Date(),
+					formatter.parse("12.12.2025, 13:00"), false));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertFalse(calendar.getEventAtDate(new Date()).isEmpty());
+
+		assertEquals(calendar.getEventAtDate(new Date()).get(0).getTitle(),
+				"the one from the past");
+		assertEquals(calendar.getEventAtDate(new Date()).get(1).getTitle(),
+				"the one in the future");
+
 	}
 }
