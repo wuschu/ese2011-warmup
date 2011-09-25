@@ -93,4 +93,28 @@ public class CalendarTest {
 				"the one in the future");
 
 	}
+
+	@Test
+	public void testGetAllEventsGetCalendarNameAndToString() {
+		try {
+			calendar.addEvent(new Event("ESE Lecture", formatter
+					.parse("21.09.2011, 13:00"), formatter
+					.parse("21.09.2011, 16:00"), false));
+
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// event started in the past until today
+		try {
+			calendar.addEvent(new Event("the one from the past", formatter
+					.parse("21.09.2011, 13:00"), new Date(), false));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals(calendar.getAllEventsOfCalendar(), "In calendar "
+				+ calendar.getCalendarName() + " are the following events: "
+				+ calendar.toString());
+	}
 }

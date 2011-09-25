@@ -31,8 +31,6 @@ public class Event {
 		return isPublic;
 	}
 
-	// usw... for all variables getters.
-
 	public String toString() {
 		return "Event: " + title + "\nStart: " + startTime + "\nEnd: "
 				+ endTime + "\n";

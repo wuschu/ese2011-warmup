@@ -11,6 +11,7 @@ public class Calendar {
 		this.owner = owner;
 		this.calName = name;
 		eventList = new LinkedList<Event>();
+
 	}
 
 	public void addEvent(Event event) {
@@ -25,12 +26,9 @@ public class Calendar {
 					&& ((date.getTime() / 1000 / 60 / 60 / 24) <= (event
 							.getEndTime().getTime() / 1000 / 60 / 60 / 24))) {
 				eventsAtDateList.add(event);
-
 			}
-
 		}
 		return eventsAtDateList;
-
 	}
 
 	public User getOwner() {
@@ -45,10 +43,17 @@ public class Calendar {
 		return eventList.isEmpty();
 	}
 
+	public List<Event> getEventsAsList() {
+		return eventList;
+	}
+
 	public String getAllEventsOfCalendar() {
 		return "In calendar " + calName + " are the following events: "
 				+ eventList.toString();
+	}
 
+	public String toString() {
+		return eventList.toString();
 	}
 
 }
