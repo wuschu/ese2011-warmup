@@ -8,59 +8,67 @@ import org.junit.Test;
 
 public class UserTest {
 
-	User testUser = new User("testuser");
-	User anotherTestUser = new User("otherTestuser");
+	User userOne = new User("userOne");
+	User userTwo = new User("userTwo");
 
 	@Test
 	public void testIfUserHasName() {
-		assertEquals(testUser.getName(), "testuser");
+		assertEquals(userOne.getName(), "userOne");
 	}
 
 	@Test
 	public void testCreateCalendar() {
-		testUser.createCalendar("testCreation");
-		assertFalse(testUser.getPrivateCalendarList().isEmpty());
+		userOne.createCalendar("testCreation");
+		assertFalse(userOne.getPrivateCalendarList().isEmpty());
 	}
 
 	@Test
 	public void testGetCalendarByName() {
-		testUser.createCalendar("testCreation");
-		assertTrue(testUser.getCalendarByName("testCreation").isEmpty());
-		testUser.getCalendarByName("testCreation").addEvent(
+		userOne.createCalendar("testCreation");
+		assertTrue(userOne.getCalendarByName("testCreation").isEmpty());
+		userOne.getCalendarByName("testCreation").addEvent(
 				new Event("title", new Date(), new Date(), true));
 
-		assertFalse(testUser.getCalendarByName("testCreation").isEmpty());
-		assertEquals(testUser.getCalendarByName("testCreation")
+		assertFalse(userOne.getCalendarByName("testCreation").isEmpty());
+		assertEquals(userOne.getCalendarByName("testCreation")
 				.getAllEventsOfCalendar(), "In calendar "
-				+ testUser.getCalendarByName("testCreation").getCalendarName()
+				+ userOne.getCalendarByName("testCreation").getCalendarName()
 				+ " are the following events: "
-				+ testUser.getCalendarByName("testCreation").toString());
+				+ userOne.getCalendarByName("testCreation").toString());
 	}
 
 	@Test
 	public void testIterator() {
-		testUser.createCalendar("allowedToSeeAll");
-		anotherTestUser.createCalendar("allowedToSeeOnlyPublicEvents");
-		testUser.getCalendarByName("allowedToSeeAll").addEvent(
+		userOne.createCalendar("userOneCalendar");
+		userTwo.createCalendar("userTwoCalendar");
+		userOne.getCalendarByName("userOneCalendar").addEvent(
 				new Event("user1event1", new Date(), new Date(), true));
-		testUser.getCalendarByName("allowedToSeeAll").addEvent(
+		userOne.getCalendarByName("userOneCalendar").addEvent(
 				new Event("user1event2", new Date(), new Date(), false));
 
-		anotherTestUser.getCalendarByName("allowedToSeeOnlyPublicEvents")
-				.addEvent(
-						new Event("user2event", new Date(), new Date(), false));
+		userTwo.getCalendarByName("userTwoCalendar").addEvent(
+				new Event("user2event", new Date(), new Date(), false));
 
-		assertTrue(testUser.getEventsAllowedToSee(
-				anotherTestUser
-						.getCalendarByName("allowedToseeonlypublicevents"))
-				.isEmpty());
+		assertTrue(userOne.getEventsAllowedToSee(
+				userTwo.getCalendarByName("userTwoCalendar")).isEmpty());
 
-		System.out.println(anotherTestUser.getEventsAllowedToSee(testUser
-				.getCalendarByName("allowedToSeeAll")));
-		System.out.println(testUser.getEventsAllowedToSee(anotherTestUser
-				.getCalendarByName("allowedToseeonlypublicevents")));
-		System.out.println(testUser.getEventsAllowedToSee(testUser
-				.getCalendarByName("allowedtoseeall")));
+		assertFalse(userTwo.getEventsAllowedToSee(
+				userOne.getCalendarByName("userOneCalendar")).isEmpty());
+
+		assertEquals(userTwo.getEventsAllowedToSee(
+				userOne.getCalendarByName("userOneCalendar")).size(), 1);
+
+		assertTrue(userTwo.getEventsAllowedToSee(
+				userOne.getCalendarByName("userOneCalendar")).get(0).equals(
+				userOne.getCalendarByName("userOneCalendar").getEventsAsList()
+						.get(0)));
+
+		assertFalse(userOne.getEventsAllowedToSee(
+				userOne.getCalendarByName("userOneCalendar")).isEmpty());
+
+		assertEquals(userOne.getEventsAllowedToSee(userOne
+				.getCalendarByName("userOneCalendar")), userOne
+				.getCalendarByName("userOneCalendar").getEventsAsList());
 
 	}
 }
