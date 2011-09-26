@@ -28,10 +28,13 @@ public class UserTest {
 		assertTrue(testUser.getCalendarByName("testCreation").isEmpty());
 		testUser.getCalendarByName("testCreation").addEvent(
 				new Event("title", new Date(), new Date(), true));
-		// this test doesn't really make sense. but I could not figure out how
-		// to give the calendars different variables on creating them... compare
-		// comment in User.java (Line 17)
+
 		assertFalse(testUser.getCalendarByName("testCreation").isEmpty());
+		assertEquals(testUser.getCalendarByName("testCreation")
+				.getAllEventsOfCalendar(), "In calendar "
+				+ testUser.getCalendarByName("testCreation").getCalendarName()
+				+ " are the following events: "
+				+ testUser.getCalendarByName("testCreation").toString());
 	}
 
 	@Test
@@ -39,13 +42,25 @@ public class UserTest {
 		testUser.createCalendar("allowedToSeeAll");
 		anotherTestUser.createCalendar("allowedToSeeOnlyPublicEvents");
 		testUser.getCalendarByName("allowedToSeeAll").addEvent(
-				new Event("user1event", new Date(), new Date(), true));
+				new Event("user1event1", new Date(), new Date(), true));
+		testUser.getCalendarByName("allowedToSeeAll").addEvent(
+				new Event("user1event2", new Date(), new Date(), false));
+
 		anotherTestUser.getCalendarByName("allowedToSeeOnlyPublicEvents")
 				.addEvent(
 						new Event("user2event", new Date(), new Date(), false));
 
-		System.out.println(testUser.getEventsAllowedToSee());
-		System.out.println(anotherTestUser.getEventsAllowedToSee());
-		// System.out.println(testUser.getGlobarCalendarList());
+		assertTrue(testUser.getEventsAllowedToSee(
+				anotherTestUser
+						.getCalendarByName("allowedToseeonlypublicevents"))
+				.isEmpty());
+
+		System.out.println(anotherTestUser.getEventsAllowedToSee(testUser
+				.getCalendarByName("allowedToSeeAll")));
+		System.out.println(testUser.getEventsAllowedToSee(anotherTestUser
+				.getCalendarByName("allowedToseeonlypublicevents")));
+		System.out.println(testUser.getEventsAllowedToSee(testUser
+				.getCalendarByName("allowedtoseeall")));
+
 	}
 }
