@@ -50,4 +50,19 @@ public class User {
 			}
 		return eventsAllowedToSee;
 	}
+	/*
+	 * Alternative with specific date...
+	 * 
+	 * public List<Event> getEventsAllowedToSee(Calendar calendar, Date date) {
+	 * List<Event> eventsAllowedToSee = new LinkedList<Event>(); List<Event>
+	 * eventsAllowedToSeeFromStartingTime = new LinkedList<Event>(); if
+	 * (calendar.getOwner().equals(this)) eventsAllowedToSee =
+	 * calendar.getEventsAsList(); else for (Event event :
+	 * calendar.getEventsAsList()) { if (event.isPublic == true) {
+	 * eventsAllowedToSee.add(event); } } for (Event event : eventsAllowedToSee)
+	 * if (event.getStartTime().getTime() / 1000 / 60 / 60 / 24 >= date
+	 * .getTime() / 1000 / 60 / 60 / 24) {
+	 * eventsAllowedToSeeFromStartingTime.add(event); } return
+	 * eventsAllowedToSeeFromStartingTime;
+	 */
 }
