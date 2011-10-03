@@ -1,38 +1,43 @@
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Event {
-	public String title;
+	public String eventName;
 	public Date startTime, endTime;
 	DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
 	public boolean isPublic;
 
-	public Event(String title, Date startsAt, Date endsAt, boolean isPublic) {
-		this.title = title;
-		this.startTime = startsAt;
-		this.endTime = endsAt;
-		this.isPublic = isPublic;
+	public Event(String title, String startsAt, String endsAt, boolean isPublic) {
+		try {
+			this.eventName = title;
+			this.startTime = formatter.parse(startsAt);
+			this.endTime = formatter.parse(endsAt);
+			this.isPublic = isPublic;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public String getTitle() {
-		return title;
+	protected String getTitle() {
+		return eventName;
 	}
 
-	public Date getStartTime() {
+	protected Date getStartTime() {
 		return startTime;
 	}
 
-	public Date getEndTime() {
+	protected Date getEndTime() {
 		return endTime;
 	}
 
-	public boolean isPublic() {
+	protected boolean isPublic() {
 		return isPublic;
 	}
 
 	public String toString() {
-		return "Event: " + title + "\nStart: " + startTime + "\nEnd: "
+		return "Event: " + eventName + "\nStarts: " + startTime + "\nEnd: "
 				+ endTime + "\n";
 	}
 }

@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -5,12 +6,12 @@ public class User {
 	public String name;
 	List<Calendar> privateCalendarList;
 
-	// List<Calendar> globalCalendarList = new LinkedList<Calendar>();
+	// List<User> userList = new LinkedList<User>();
 
 	public User(String username) {
 		this.name = username;
 		privateCalendarList = new LinkedList<Calendar>();
-
+		// userList.add(this);
 	}
 
 	public String getName() {
@@ -20,7 +21,6 @@ public class User {
 	public void createCalendar(String name) {
 		Calendar calendar = new Calendar(name, this);
 		privateCalendarList.add(calendar);
-
 	}
 
 	public Calendar getCalendarByName(String calendarname) {
@@ -37,32 +37,22 @@ public class User {
 	}
 
 	// iterator
-	public List<Event> getEventsAllowedToSee(Calendar calendar) {
+	public List<Event> getEventsAllowedToSee(Calendar calendar, Date date) {
 		List<Event> eventsAllowedToSee = new LinkedList<Event>();
 
 		if (calendar.getOwner().equals(this))
-			eventsAllowedToSee = calendar.getEventsAsList();
+			for (Event event : calendar.getEventsAsList()) {
+				if (event.getEndTime().after(date)) {
+					eventsAllowedToSee.add(event);
+				}
+			}
 		else
 			for (Event event : calendar.getEventsAsList()) {
-				if (event.isPublic == true) {
+				if (event.isPublic == true && event.getEndTime().after(date)) {
 					eventsAllowedToSee.add(event);
 				}
 			}
 		return eventsAllowedToSee;
 	}
-	/*
-	 * Alternative with specific date...
-	 * 
-	 * public List<Event> getEventsAllowedToSee(Calendar calendar, Date date) {
-	 * List<Event> eventsAllowedToSee = new LinkedList<Event>(); List<Event>
-	 * eventsAllowedToSeeFromStartingTime = new LinkedList<Event>(); if
-	 * (calendar.getOwner().equals(this)) eventsAllowedToSee =
-	 * calendar.getEventsAsList(); else for (Event event :
-	 * calendar.getEventsAsList()) { if (event.isPublic == true) {
-	 * eventsAllowedToSee.add(event); } } for (Event event : eventsAllowedToSee)
-	 * if (event.getStartTime().getTime() / 1000 / 60 / 60 / 24 >= date
-	 * .getTime() / 1000 / 60 / 60 / 24) {
-	 * eventsAllowedToSeeFromStartingTime.add(event); } return
-	 * eventsAllowedToSeeFromStartingTime;
-	 */
+
 }

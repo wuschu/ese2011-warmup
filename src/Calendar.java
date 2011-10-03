@@ -3,15 +3,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Calendar {
+	public String calName;
 	User owner;
-	String calName;
 	List<Event> eventList;
 
 	public Calendar(String name, User owner) {
-		this.owner = owner;
 		this.calName = name;
+		this.owner = owner;
 		eventList = new LinkedList<Event>();
-
 	}
 
 	public void addEvent(Event event) {
@@ -27,6 +26,7 @@ public class Calendar {
 							.getEndTime().getTime() / 1000 / 60 / 60 / 24))) {
 				eventsAtDateList.add(event);
 			}
+
 		}
 		return eventsAtDateList;
 	}
@@ -39,7 +39,7 @@ public class Calendar {
 		return calName;
 	}
 
-	public boolean isEmpty() {
+	public boolean isEmtpy() {
 		return eventList.isEmpty();
 	}
 
@@ -55,5 +55,4 @@ public class Calendar {
 	public String toString() {
 		return eventList.toString();
 	}
-
 }
